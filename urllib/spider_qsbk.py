@@ -17,6 +17,7 @@ req=urllib.request.Request(url,headers=headers)
 try:
     with urllib.request.urlopen(req) as f:
         response=f.read().decode('utf-8')  #将bytes转换为str
+        # print(response)
         # response=str(response)
         # with open('data.txt','w') as d:
         #     d.write(response)
@@ -27,8 +28,9 @@ except urllib.error.URLError as e:
     print (e.code)
 
 #正则匹配
-pattern=re.compile(r'<div.*?author\s?clearfix">.*?<img\s?src="(.*?)"\s?alt="(.*?)"/>.*?'+
-                   r'<div.*?content">.*?span>(.*?)</span>.*?<div.*?class="stats".*?number">(.*?)</i>.*?</span>.*?</div>.*?</div>',re.S)
+pattern=re.compile(r'<div class="author clearfix">.*?<h2>(.*?)</h2>.*?<span>(.*?)</span>.*?'+
+                   r'<!-- 图片或gif -->(.*?)<div class="stats">.*?'+
+                   r'<i class="number">(.*?)</i>',re.S)
 itmes=re.findall(pattern,response)
 for item in itmes:
     print (item[0])
